@@ -82,11 +82,14 @@ async function run() {
         version,
         architecture,
       );
+
+      core.info("Cleaning up residual files");
+      await exec.exec("rm", ["-rf", downloadPath]);
     } else {
       core.info(`Using cached ${toolName} version ${version}`);
     }
 
-    core.info('Adding the tool to PATH');
+    core.info("Adding the tool to PATH");
     core.addPath(toolPath);
 
     core.info("Checking installed version");
@@ -95,9 +98,6 @@ async function run() {
     core.info(
       `${toolName} v${version} has been set up successfully`,
     );
-
-    core.info("Cleaning up residual files");
-    await exec.exec("rm", ["-rf", downloadPath]);
   } catch (error) {
     core.setFailed(error.message);
   }
