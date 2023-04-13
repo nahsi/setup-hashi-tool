@@ -1,7 +1,7 @@
 const core = require("@actions/core");
 const exec = require("@actions/exec");
 const tc = require("@actions/tool-cache");
-const fs = require('fs');
+const fs = require("fs");
 const axios = require("axios");
 const semver = require("semver");
 
@@ -57,25 +57,44 @@ async function run() {
       version = version.replace(/^v/, "");
     }
 
-    const zipFilename = `${toolName}_${version}_${architecture}.zip`;
-    const downloadUrl =
-      `https://releases.hashicorp.com/${toolName}/${version}/${zipFilename}`;
+    let toolPath = tc.find(toolName, version, architecture);
 
-    core.info(`Downloading ${toolName} from ${downloadUrl}`);
-    const downloadedPath = await tc.downloadTool(downloadUrl);
+    if (!toolPath) {
+      const zipFilename = `${toolName}_${version}_${architecture}.zip`;
+      const downloadUrl =
+        `https://releases.hashicorp.com/${toolName}/${version}/${zipFilename}`;
 
-    core.info(`Extracting ${toolName} binary`);
-    const extractedPath = await tc.extractZip(downloadedPath);
+      core.info(
+        `Downloading ${toolName} version ${version} for ${architecture}`,
+      );
+      const downloadPath = await tc.downloadTool(downloadUrl);
 
-    const binaryPath = `${extractedPath}/${toolName}`;
-    core.info(`Adding ${toolName} to PATH`);
-    await tc.cacheFile(binaryPath, toolName, toolName, version);
+      core.info("Extracting the downloaded archive");
+      const extractPath = await tc.extractZip(downloadPath);
 
-    core.info("Making the tool executable");
-    fs.chmodSync(`${extractedPath}/${toolName}`, '755');
+      core.info("Making the tool executable");
+      fs.chmodSync(`${extractPath}/${toolName}`, "755");
+
+      core.info("Caching the tool");
+      toolPath = await tc.cacheDir(
+        extractPath,
+        toolName,
+        version,
+        architecture,
+      );
+    } else {
+      core.info(`Using cached ${toolName} version ${version}`);
+    }
+
+    core.info('Adding the tool to PATH');
+    core.addPath(toolPath);
 
     core.info("Checking installed version");
     await exec.exec(`${toolName}`, ["--version"]);
+
+    core.info(
+      `${toolName} v${version} has been set up successfully`,
+    );
 
     core.info("Cleaning up residual files");
     await exec.exec("rm", ["-rf", downloadedPath]);
