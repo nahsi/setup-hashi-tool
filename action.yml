@@ -1,0 +1,17 @@
+name: "Setup HashiCorp tools"
+description: "Download any HashiCorp tool (nomad, consul-template etc) and add to $PATH"
+author: "nahsi"
+
+inputs:
+  name:
+    description: "Tool name"
+    type: string
+    required: true
+  version:
+    description: "Tool version"
+    type: string
+    default: "latest"
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
