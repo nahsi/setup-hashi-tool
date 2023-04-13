@@ -2,6 +2,10 @@ name: "Setup HashiCorp tools"
 description: "Download any HashiCorp tool (nomad, consul-template etc) and add to $PATH"
 author: "nahsi"
 
+branding:
+  icon: "archive"
+  color: "dark-gray"
+
 inputs:
   name:
     description: "Tool name"
