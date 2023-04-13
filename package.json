@@ -1,0 +1,29 @@
+{
+  "name": "setup-hashi-tool",
+  "version": "1.0.0",
+  "description": "Download any HashiCorp tool",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nashi/setup-hashi-tool.git"
+  },
+  "author": "Fluence Labs",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/fluencelabs/setup-hashi-tool/issues"
+  },
+  "homepage": "https://github.com/fluencelabs/setup-hashi-tool#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/tool-cache": "^2.0.1",
+    "@octokit/rest": "^19.0.7",
+    "axios": "^1.3.5",
+    "sever": "^0.0.2"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1"
+  }
+}
