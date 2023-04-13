@@ -23,7 +23,6 @@ jobs:
         id: release
         uses: google-github-actions/release-please-action@v3
         with:
-          token: ${{ secrets.FLUENCEBOT_RELEASE_PLEASE_PAT }}
           release-type: node
           package-name: setup-marine
 
