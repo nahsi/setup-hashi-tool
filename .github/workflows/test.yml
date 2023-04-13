@@ -9,7 +9,6 @@ concurrency:
 
 jobs:
   test:
-    name: "setup-hashi-tool"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
