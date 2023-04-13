@@ -24,7 +24,7 @@ jobs:
         uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
-          package-name: setup-marine
+          package-name: setup-hashi-tool
 
       - name: Show output from release-please
         if: steps.release.outputs.releases_created
