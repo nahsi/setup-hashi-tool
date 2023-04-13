@@ -97,7 +97,7 @@ async function run() {
     );
 
     core.info("Cleaning up residual files");
-    await exec.exec("rm", ["-rf", downloadedPath]);
+    await exec.exec("rm", ["-rf", downloadPath]);
   } catch (error) {
     core.setFailed(error.message);
   }
